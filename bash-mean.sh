@@ -1,21 +1,20 @@
 #!/bin/bash
 
-file=$1
+filename=$1
 repword=""
-for word in $(<$file)
+lines=$(wc -l < $filename)
+for word in $(<$filename)
 do
-    if (( $RANDOM % 2 )); then
+    if (( $RANDOM % $lines == 0 )); then
         repword=${word//[$]/}
     fi
 done
 
 torep=""
-echo $repword
 type $repword &> /dev/null
 if [ $? == 1 ]; then
     tEMPFILEASDF=$(mktemp)
     torep=${repword^^}
     torep=${torep,}
-    echo $torep
-    sed -i 's/'$repword'/'$torep'/g' "$file" | tee $tEMPFILEASDF
+    sed -i 's/'$repword'/'$torep'/g' "$filename" | tee $tEMPFILEASDF
 fi

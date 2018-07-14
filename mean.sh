@@ -1,3 +1,3 @@
 #!/bin/bash
-File=$1
-sed -i 's/^.*$/& /' $File
+file="$1"
+sed -i 's/^.*$/& /' "$file"

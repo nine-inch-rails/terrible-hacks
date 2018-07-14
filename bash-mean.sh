@@ -1,14 +1,19 @@
 #!/bin/bash
 
 filename=$1
-repword=""
 lines=$(wc -l < $filename)
 flag=0
+repword=""
 while [ $flag -eq 0 ]; do
     for word in $(<$filename)
     do
         if (( $RANDOM % $lines == 0 )); then
             repword=${word//[$]/}
+            index=$(expr match $repword '^.*=')
+            index=$(expr $index - 1)
+            if [[ $index -gt 0 ]]; then
+                repword=$(expr substr $repword 1 $index)
+            fi
         fi
     done
 

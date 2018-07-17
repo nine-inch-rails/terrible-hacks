@@ -17,12 +17,10 @@ while [ $flag -eq 0 ]; do
     done
 
     echo $repword
-    torep=""
+    torep=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
     type "$repword" &>> /dev/null
     if [ $? == 1 ]; then
         flag=1
-        torep=${repword^^}
-        torep=${torep,}
         sed -i 's/'$repword'/'$torep'/g' "$filename"
     fi
 done
